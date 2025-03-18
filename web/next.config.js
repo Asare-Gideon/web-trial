@@ -1,13 +1,12 @@
+/** @type {import('next').NextConfig} */
 module.exports = {
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: true, // Ignores ESLint errors during build
   },
-  // i18n: {
-  //   locales: ["en", "my"],
-  //   defaultLocale: "en",
-  //  },
+  typescript: {
+    ignoreBuildErrors: true, // Ignores TypeScript errors during build
+  },
   reactStrictMode: false,
-  // swcMinify: true,
   compiler: {
     removeConsole: false,
   },

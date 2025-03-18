@@ -1,0 +1,203 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=KoHo:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+}
+@font-face {
+  font-family: "UniNeue";
+  src: local("UniNeue"),
+    url("../public//fonts/UniNeue-Trial-Regular.woff") format("truetype");
+}
+
+.editorClassName {
+  overflow-y: hidden;
+  height: 23rem !important;
+}
+
+.hero-bg {
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 9, 121, 1) 62%,
+    rgba(8, 107, 128, 1) 100%
+  );
+}
+
+.koho-L {
+  font-family: "KoHo", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.koho-R {
+  font-family: "KoHo", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.koho-M {
+  font-family: "KoHo", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.koho-SB {
+  font-family: "KoHo", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.koho-B {
+  font-family: "KoHo", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.koho-extralight-italic {
+  font-family: "KoHo", sans-serif;
+  font-weight: 200;
+  font-style: italic;
+}
+
+.koho-light-italic {
+  font-family: "KoHo", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.koho-regular-italic {
+  font-family: "KoHo", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.koho-medium-italic {
+  font-family: "KoHo", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.koho-semibold-italic {
+  font-family: "KoHo", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.koho-bold-italic {
+  font-family: "KoHo", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+.text-gradient {
+  background: rgb(103, 233, 240) !important;
+  background: linear-gradient(
+    280deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 9, 121, 1) 62%,
+    rgba(8, 107, 128, 1) 100%
+  ) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent;
+}
+.text-gradient-2 {
+  background: rgb(254, 192, 99) !important;
+  background-image: linear-gradient(
+    273deg,
+    rgb(254, 192, 99) -18%,
+    rgb(226, 133, 203) 51.1244%,
+    rgb(168, 78, 253) 122%
+  ) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent;
+}
+
+.privacy-container {
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 70% 100%, 30% 100%, 0 80%);
+}
+.privacy-header {
+  @apply text-[2rem] koho-M;
+}
+
+@media only screen and (max-width: 600px) {
+  .hero-container {
+    overflow-x: hidden !important;
+  }
+}
+
+.globe-worldmap {
+  @apply w-[40vw] left-0 h-[400pxh] rounded-[50%] top-0 overflow-hidden;
+}
+
+/* @layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+} */
+
+.animate-bounce-forward {
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateX(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateX(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}

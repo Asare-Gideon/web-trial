@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "app/api/publish-scheduled-posts.ts": {
+      "maxDuration": 10
+    }
+  }
+}

@@ -10,6 +10,9 @@ module.exports = {
   compiler: {
     removeConsole: false,
   },
+  env: {
+    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+  },
   images: {
     domains: [
       "i.ibb.co",

@@ -6,7 +6,7 @@ import AppHeader from "../components/Header/AppHeader";
 const Custom404 = () => {
   return (
     <>
-      <AppHeader title="Page Not Found - Routine 11" />
+      <AppHeader title="Page Not Found - Eduquery" />
       <div className="flex flex-col h-screen justify-center items-center">
         <h1 className="text-2xl">page_not_found</h1>
         <Image

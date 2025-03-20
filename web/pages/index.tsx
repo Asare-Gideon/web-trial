@@ -109,7 +109,7 @@ const Home: React.FC<Props> = ({ products }) => {
               />
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4 lg:gap-x-12 gap-y-20 mb-10 app-x-padding">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-x-2 lg:gap-x-12 gap-y-20 mb-10 app-x-padding">
               {items.map((item) => (
                 <Card key={item.id} item={item as any} />
               ))}

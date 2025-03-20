@@ -1,8 +1,6 @@
 import convertSubCurrency from "../../components/Util/convertSubCurrency";
-// const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const stripe = require("stripe")(
-  "sk_test_51PPUYOP7aLEEoEmNcWxiKqwp7WyRFwD2OylgGrKmtYR0rWmwkim2cNRCARZvRdtWv5kX0nCktsZOptHleJRTlnBL00KoV2YkiJ"
-);
+
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 export default async function handler(req: any, res: any) {
   if (req.method === "POST") {

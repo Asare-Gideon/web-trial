@@ -1,15 +1,17 @@
-import { FC, useEffect, useState } from "react";
+"use client";
+
+import { type FC, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { ShoppingCart, Check, Tag } from "lucide-react";
 
 import Heart from "../../public/icons/Heart";
-import styles from "./Card.module.css";
 import HeartSolid from "../../public/icons/HeartSolid";
-import { itemType } from "../../context/cart/cart-types";
+import type { itemType } from "../../context/cart/cart-types";
 import { useCart } from "../../context/cart/CartProvider";
 import { useWishlist } from "../../context/wishlist/WishlistProvider";
-import { ProductType } from "../../common/types";
+import type { ProductType } from "../../common/types";
 import { useAuth } from "context/AuthContext";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { FIREBASE_AUTH } from "../../firebase/config";
@@ -26,6 +28,9 @@ const Card: FC<Props> = ({ item }) => {
   const auth = useAuth();
   const [user, loading, error] = useAuthState(FIREBASE_AUTH);
   const [isBought, setIsBought] = useState(false);
+
+  // Check if the course is free
+  const isFree = item.courseData.price === 0;
 
   const newItem: itemType = {
     id: item.id,
@@ -52,82 +57,136 @@ const Card: FC<Props> = ({ item }) => {
         setIsBought(true);
       }
     }
-  }, []);
+  }, [item.purchaseUsers, user?.email]);
 
   return (
-    <div className={styles.card} style={{ marginBottom: 20 }}>
-      <div
-        style={{ backgroundColor: "#f8f2f0" }}
-        className={"relative overflow-hidden mb-1 card-container "}
-      >
+    <div className="group flex flex-col rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-all duration-300 mb-6">
+      {/* Image container */}
+      <div className="relative h-48 md:h-40 bg-[#f8f2f0] overflow-hidden">
         <Link href={itemLink}>
-          <span
-            tabIndex={-1}
+          <div
+            className="w-full h-full relative cursor-pointer"
             onMouseOver={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            {!isHovered && (
-              <Image
-                src={item.courseData.thumbnails[0] as string}
-                alt={item.courseData.title}
-                fill
-                className="rounded-md"
-                // layout="responsive"
-              />
-            )}
-            {isHovered && (
-              <Image
-                className="transition-transform  rounded-md transform hover:scale-110 duration-1000"
-                src={item.courseData.thumbnails[0] as string}
-                alt={item.courseData.title}
-                fill
-              />
-            )}
-          </span>
+            <Image
+              src={
+                (item.courseData.thumbnails[0] as string) || "/placeholder.svg"
+              }
+              alt={item.courseData.title}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className={`object-cover transition-transform duration-700 ${
+                isHovered ? "scale-110" : "scale-100"
+              } rounded-t-lg`}
+            />
+
+            {/* Overlay on hover */}
+            <div
+              className={`absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center ${
+                isBought ? "pointer-events-none" : ""
+              }`}
+            >
+              {!isBought && !isFree && (
+                <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      addOne!(newItem);
+                    }}
+                    className="bg-white text-gray-800 hover:bg-gray-100 px-4 py-2 rounded-md font-medium text-sm uppercase tracking-wide flex items-center gap-2"
+                  >
+                    <ShoppingCart size={16} />
+                    addToCart
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
         </Link>
-        {isBought && (
-          <h4 className=" px-5 py-1 text-sm rounded-md absolute top-2  left-2 bg-primary text-white">
+
+        {/* Status badges */}
+        {isFree ? (
+          <div className="absolute top-3 left-3 bg-green-500 text-white px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1 shadow-sm">
+            <Tag size={14} />
+            Free
+          </div>
+        ) : isBought ? (
+          <div className="absolute top-3 left-3 bg-primary text-white px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1 shadow-sm">
+            <Check size={14} />
             Subscribed
-          </h4>
-        )}
+          </div>
+        ) : null}
+
+        {/* Wishlist button */}
         <button
           type="button"
-          className="absolute top-2 right-2 p-1 rounded-full"
-          aria-label="Wishlist"
+          className={`absolute top-3 right-3 p-2 rounded-full bg-white/80 backdrop-blur-sm shadow-sm transition-colors ${
+            alreadyWishlisted
+              ? "text-red-500"
+              : "text-gray-600 hover:text-red-500"
+          }`}
+          aria-label={
+            alreadyWishlisted ? "Remove from wishlist" : "Add to wishlist"
+          }
           onClick={handleWishlist}
           onMouseOver={() => setIsWLHovered(true)}
           onMouseLeave={() => setIsWLHovered(false)}
         >
           {isWLHovered || alreadyWishlisted ? <HeartSolid /> : <Heart />}
         </button>
-        {!isBought && (
-          <button
-            type="button"
-            onClick={() => {
-              if (isBought) return;
-              addOne!(newItem);
-            }}
-            className={styles.addBtn}
-          >
-            {isBought ? "Already bought" : "add_to_cart"}
-          </button>
-        )}
       </div>
 
-      <div className="content">
-        <Link href={itemLink}>
-          <span className={styles.itemName}>{item.courseData.title}</span>
+      {/* Content section */}
+      <div className="p-4 flex flex-col flex-grow">
+        <Link href={itemLink} className="group/title">
+          <h3 className="font-medium text-gray-800 text-lg md:text-md line-clamp-2 group-hover/title:text-primary transition-colors mb-2">
+            {item.courseData.title}
+          </h3>
         </Link>
-        <div className="text-gray400">$ {item.courseData.price}</div>
-        {!isBought && (
-          <button
-            type="button"
-            onClick={() => addOne!(newItem)}
-            className="uppercase font-bold text-sm sm:hidden"
-          >
-            add_to_cart
-          </button>
-        )}
+
+        <div className="mt-auto pt-2 flex items-center justify-between">
+          {!isFree ? (
+            <span className="text-lg font-semibold text-gray-900">
+              ${item.courseData.price.toFixed(2)}
+            </span>
+          ) : (
+            <span className="text-lg font-semibold text-green-600">Free</span>
+          )}
+
+          {!isBought && !isFree && (
+            <button
+              type="button"
+              onClick={() => addOne!(newItem)}
+              className="md:hidden border bg-primary/10 hover:bg-primary/20 text-primary px-3 py-1.5 rounded-md text-sm font-medium transition-colors flex items-center gap-1"
+            >
+              <ShoppingCart size={14} />
+              addToCart
+            </button>
+          )}
+
+          {isBought && (
+            <span className="text-sm text-green-600 font-medium md:hidden flex items-center gap-1">
+              <Check size={14} />
+              Enrolled
+            </span>
+          )}
+
+          {isFree && !isBought && (
+            <button
+              type="button"
+              onClick={(e) => {
+                // Logic for enrolling in free course
+              }}
+              className="md:hidden border bg-green-100 hover:bg-green-200 text-green-600 px-3 py-1.5 rounded-md text-sm font-medium transition-colors flex items-center gap-1"
+            >
+              <Check size={14} />
+              Enroll Free
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

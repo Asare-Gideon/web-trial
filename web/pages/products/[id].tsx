@@ -315,9 +315,9 @@ const Product: React.FC<Props> = () => {
                   </div>
                 </div> */}
                 <div className="flex h-12 space-x-4 w-full">
-                  {isBought ? (
+                  {isBought || product.price === 0 ? (
                     <Button
-                      value={"Subscribed"}
+                      value={product.price === 0 ? "Free Course" : "Subscribed"}
                       size="lg"
                       extraClass={`flex-grow text-center whitespace-nowrap`}
                     />

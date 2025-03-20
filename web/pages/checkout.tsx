@@ -221,7 +221,7 @@ const ShoppingCart = () => {
   return (
     <div>
       {/* ===== Head Section ===== */}
-      <Header title={`Shopping Cart - Routine 11`} transparent={true} />
+      <Header title={`Shopping Cart - Eduquery`} transparent={true} />
       {sendingData ? (
         <>
           <div className="w-full h-screen flex items-center justify-center ">

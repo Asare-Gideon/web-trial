@@ -131,6 +131,11 @@ const Header: React.FC<Props> = ({ title, transparent }) => {
                 </Link>
               </li>
               <li className=" hover:text-primary">
+                <Link href="/product-category/All Courses">
+                  <span>Courses</span>
+                </Link>
+              </li>
+              <li className=" hover:text-primary">
                 <Link href="/dashboard">
                   <span>Dashboard</span>
                 </Link>

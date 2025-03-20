@@ -21,7 +21,7 @@ const Search: React.FC<Props> = () => {
   return (
     <div>
       {/* ===== Head Section ===== */}
-      <Header title={`Routine`} />
+      <Header title={`Eduquery`} />
 
       <main id="main-content">
         {/* ===== Breadcrumb Section ===== */}

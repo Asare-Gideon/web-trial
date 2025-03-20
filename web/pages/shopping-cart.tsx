@@ -35,7 +35,7 @@ const ShoppingCart = () => {
   return (
     <div>
       {/* ===== Head Section ===== */}
-      <Header title={`Shopping Cart - Routine`} transparent />
+      <Header title={`Shopping Cart - Eduquery`} transparent />
 
       <main id="main-content">
         {/* ===== Heading & Continue Shopping */}

@@ -80,7 +80,7 @@ export const editCourseSchema = z.object({
   coursePrice: z.string().refine((val) => !isNaN(Number.parseFloat(val)), {
     message: "Price must be a valid number",
   }),
-  category: z.string().min(1, { message: "Please select a category" }),
+  category: z.string().optional(),
   videoEmbed: z.string().optional(),
   downloadLink: z
     .string()
@@ -113,6 +113,7 @@ const EditCoursePage = () => {
   const [activeTab, setActiveTab] = useState("basic");
   const [editorState, setEditorState] = useState("");
   const [courseData, setCourseData] = useState<any>(null);
+  const [category, setCategory] = useState("");
 
   // State for file links
   const [fileLinks, setFileLinks] = useState<
@@ -171,6 +172,7 @@ const EditCoursePage = () => {
       form.setValue("courseTitle", data.courseData.title);
       form.setValue("coursePrice", data.courseData.price.toString());
       form.setValue("category", data.courseData.category);
+      setCategory(data.courseData.category);
       form.setValue("videoEmbed", data.courseData.videoEmbed || "");
       form.setValue("downloadLink", data.courseData.downloadLink || "");
 
@@ -277,64 +279,65 @@ const EditCoursePage = () => {
   };
 
   async function onSubmit(values: z.infer<typeof editCourseSchema>) {
-    try {
-      await handleUpdateCourseCaller(async () => {
-        const thumbnailUrls: string[] = [];
+    console.log(values);
+    // try {
+    //   await handleUpdateCourseCaller(async () => {
+    //     const thumbnailUrls: string[] = [];
 
-        // Upload new thumbnails if any
-        if (thumbnails.length > 0) {
-          for (let i = 0; i < thumbnails.length; i++) {
-            const response = await fetch(thumbnails[i]);
-            const blob = await response.blob();
-            const storageRef = ImageRef(
-              FIREBASE_STORAGE,
-              "course-thumbnails/" +
-                new Date().getTime() +
-                Math.round(Math.random() * 999)
-            );
-            const uploadTask: UploadResult = await uploadBytes(
-              storageRef,
-              blob
-            );
-            const imageUrl = await getDownloadURL(uploadTask.ref);
-            thumbnailUrls.push(imageUrl);
-          }
-        }
+    //     // Upload new thumbnails if any
+    //     if (thumbnails.length > 0) {
+    //       for (let i = 0; i < thumbnails.length; i++) {
+    //         const response = await fetch(thumbnails[i]);
+    //         const blob = await response.blob();
+    //         const storageRef = ImageRef(
+    //           FIREBASE_STORAGE,
+    //           "course-thumbnails/" +
+    //             new Date().getTime() +
+    //             Math.round(Math.random() * 999)
+    //         );
+    //         const uploadTask: UploadResult = await uploadBytes(
+    //           storageRef,
+    //           blob
+    //         );
+    //         const imageUrl = await getDownloadURL(uploadTask.ref);
+    //         thumbnailUrls.push(imageUrl);
+    //       }
+    //     }
 
-        // Update course in Firestore
-        await updateDoc(doc(FIREBASE_DB, "courses", id), {
-          adminEmail: user?.email,
-          courseData: {
-            title: values.courseTitle,
-            description: editorState,
-            price: Number.parseFloat(values.coursePrice),
-            category: values.category,
-            videoEmbed: values.videoEmbed,
-            downloadLink: values.downloadLink,
-            files: fileLinks,
-            thumbnails: [...existingThumbnails, ...thumbnailUrls],
-          },
-          updatedAt: serverTimestamp(),
-        });
+    //     // Update course in Firestore
+    //     await updateDoc(doc(FIREBASE_DB, "courses", id), {
+    //       adminEmail: user?.email,
+    //       courseData: {
+    //         title: values.courseTitle,
+    //         description: editorState,
+    //         price: Number.parseFloat(values.coursePrice),
+    //         category: category,
+    //         videoEmbed: values.videoEmbed,
+    //         downloadLink: values.downloadLink,
+    //         files: fileLinks,
+    //         thumbnails: [...existingThumbnails, ...thumbnailUrls],
+    //       },
+    //       updatedAt: serverTimestamp(),
+    //     });
 
-        toast({
-          variant: "default",
-          title: "Course updated successfully",
-        });
+    //     toast({
+    //       variant: "default",
+    //       title: "Course updated successfully",
+    //     });
 
-        // Refresh the data
-        const updatedDoc = await getDoc(doc(FIREBASE_DB, "courses", id));
-        setCourseData(updatedDoc.data());
-        setThumbnails([]);
-      });
-    } catch (err) {
-      console.log(err);
-      toast({
-        variant: "destructive",
-        title: "Error updating course",
-        description: "Please try again later",
-      });
-    }
+    //     // Refresh the data
+    //     const updatedDoc = await getDoc(doc(FIREBASE_DB, "courses", id));
+    //     setCourseData(updatedDoc.data());
+    //     setThumbnails([]);
+    //   });
+    // } catch (err) {
+    //   console.log(err);
+    //   toast({
+    //     variant: "destructive",
+    //     title: "Error updating course",
+    //     description: "Please try again later",
+    //   });
+    // }
   }
 
   if (courseLoading) {
@@ -478,9 +481,8 @@ const EditCoursePage = () => {
                                         Category
                                       </FormLabel>
                                       <Select
-                                        onValueChange={field.onChange}
-                                        defaultValue={field.value}
-                                        value={field.value}
+                                        onValueChange={(v) => setCategory(v)}
+                                        defaultValue={category}
                                       >
                                         <FormControl>
                                           <SelectTrigger className="h-12">

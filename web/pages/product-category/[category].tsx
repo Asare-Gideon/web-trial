@@ -31,7 +31,7 @@ const PAGE_SIZE = 10;
 const ProductCategory = () => {
   const router = useRouter();
   const { category } = router.query;
-  const isAllProducts = category === "All Products";
+  const isAllProducts = category === "All Courses";
   const [pageCount, setPageCount] = useState(1);
   const [queryInfo, setQueryInfo] = useState({
     total: 0,
@@ -118,7 +118,7 @@ const ProductCategory = () => {
 
             {/* ===== Main Content Section ===== */}
             <div className="app-x-padding app-max-width mt-3 mb-14">
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-20 sm:gap-y-14 mb-10">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-6 gap-y-20 sm:gap-y-14 mb-10">
                 {items.map((item) => (
                   <Card key={item.id} item={item as any} />
                 ))}

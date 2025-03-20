@@ -14,7 +14,7 @@ export default async function handler(req: any, res: any) {
               currency: "usd",
               unit_amount: convertSubCurrency(amount),
               product_data: {
-                name: "first product",
+                name: "Courses Total Price",
               },
             },
           },

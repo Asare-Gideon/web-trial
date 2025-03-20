@@ -133,7 +133,7 @@ export default function Menu({ scrolled }: { scrolled: boolean }) {
                         Blogs
                       </span>
                     </Link>
-                    <Link href="/prodtuct-category/All Courses">
+                    <Link href="/product-category/All Courses">
                       <span
                         className="w-full text-xl hover:bg-gray100 text-left py-2"
                         onClick={closeModal}
